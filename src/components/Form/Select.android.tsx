@@ -30,7 +30,7 @@ export default function Select({
         name={name}
         render={({ field: { onChange, value } }) => (
           <View
-            className={`border-2 rounded-lg overflow-hidden ${
+            className={`border-2 rounded-lg overflow-hidden max-h-[100px] ${
               errors[name] ? 'border-red-500' : 'border-blue-900'
             }`}
           >
@@ -46,7 +46,6 @@ export default function Select({
           </View>
         )}
       />
-
       <ErrorFeedback message={errors[name]?.message} />
     </View>
   );
