@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { Text, View } from 'react-native';
+import { FormProvider, useForm } from 'react-hook-form';
+import { ScrollView, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import { DatePicker, Field, Select } from '../components/Form';
@@ -12,18 +12,14 @@ import { FormData, schema } from '../components/Form/schema/supplieSchema';
 import useSuppliesContext from '../hooks/useSuppliesContext';
 import { fuels } from '../mocks/fuels';
 import { gasStations } from '../mocks/gasStations';
+import delay from '../utils/delay';
 
 export default function RegisterSupplie() {
   const { setSupplies } = useSuppliesContext();
   const [success, setSuccess] = useState(false);
   const router = useRouter();
 
-  const {
-    reset,
-    control,
-    formState: { errors },
-    handleSubmit: hookFormHandleSubmit,
-  } = useForm<FormData>({
+  const methods = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       date: new Date(),
@@ -32,6 +28,13 @@ export default function RegisterSupplie() {
       fuel: '',
     },
   });
+
+  const {
+    reset,
+    control,
+    formState: { errors },
+    handleSubmit: hookFormHandleSubmit,
+  } = methods;
 
   const handleSubmit = hookFormHandleSubmit(async (data) => {
     const { liters, gasStation, fuel, date } = data;
@@ -46,6 +49,9 @@ export default function RegisterSupplie() {
     };
 
     setSupplies((prev) => [...prev, newSupplie]);
+
+    await delay();
+
     setSuccess(true);
     reset();
 
@@ -57,50 +63,57 @@ export default function RegisterSupplie() {
   });
 
   return (
-    <View className='flex-1 px-4 my-8'>
-      <Select
-        control={control}
-        errors={errors}
-        placeholder='Tipo de Combustível'
-        options={fuels}
-        name='fuel'
-      />
+    <ScrollView
+      contentContainerStyle={{
+        paddingBottom: 24,
+      }}
+      className='flex-1 px-4 my-8'
+    >
+      <FormProvider {...methods}>
+        <Select
+          control={control}
+          errors={errors}
+          placeholder='Tipo de Combustível'
+          options={fuels}
+          name='fuel'
+        />
 
-      <Field
-        control={control}
-        name='liters'
-        number
-        errors={errors}
-        placeholder='Quantidade de Litros'
-      />
+        <Field
+          control={control}
+          name='liters'
+          number
+          errors={errors}
+          placeholder='Quantidade de Litros'
+        />
 
-      <Select
-        control={control}
-        errors={errors}
-        placeholder='Posto de Gasolina'
-        options={gasStations}
-        name='gasStation'
-      />
+        <Select
+          control={control}
+          errors={errors}
+          placeholder='Posto de Gasolina'
+          options={gasStations}
+          name='gasStation'
+        />
 
-      <DatePicker
-        control={control}
-        name='date'
-        errors={errors}
-        placeholder='Data do abastecimento'
-      />
+        <DatePicker
+          control={control}
+          name='date'
+          errors={errors}
+          placeholder='Data do abastecimento'
+        />
 
-      <Button className='mt-12' onPress={handleSubmit}>
-        Registrar
-      </Button>
+        <Button className='mt-12' onPress={handleSubmit}>
+          Registrar
+        </Button>
 
-      {success && (
-        <View className='items-center flex-row mt-6'>
-          <MaterialIcons name='check' size={28} color='green' />
-          <Text className='text-green-700'>
-            Abastecimento registrado com sucesso!
-          </Text>
-        </View>
-      )}
-    </View>
+        {success && (
+          <View className='items-center flex-row mt-6'>
+            <MaterialIcons name='check' size={28} color='green' />
+            <Text className='text-green-700'>
+              Abastecimento registrado com sucesso!
+            </Text>
+          </View>
+        )}
+      </FormProvider>
+    </ScrollView>
   );
 }

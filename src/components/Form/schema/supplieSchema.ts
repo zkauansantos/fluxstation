@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const schema = z
   .object({
-    date: z.date().min(new Date(), 'Campo obrigatório'),
+    date: z.date(),
     liters: z.string().min(1, 'Campo obrigatório'),
     gasStation: z.string().min(1, 'Campo obrigatório'),
     fuel: z.string().min(1, 'Campo obrigatório'),
