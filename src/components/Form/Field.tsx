@@ -38,6 +38,7 @@ export default function Field({
             placeholderTextColor='#555'
             keyboardType={number ? 'number-pad' : 'default'}
             maxLength={maxLength}
+            returnKeyType='done'
           />
         )}
       />
