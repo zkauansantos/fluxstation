@@ -1,9 +1,10 @@
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import FuelsList from '../../components/FuelsList';
 
 export default function Home() {
   return (
-    <View className='flex-1 items-center justify-center'>
-      <Text className='text-3xl font-bold  '>Home</Text>
+    <View className='flex-1 bg-blue-50 pt-6'>
+      <FuelsList />
     </View>
   );
 }
