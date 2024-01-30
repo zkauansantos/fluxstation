@@ -2,7 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { ScrollView, Text, View } from 'react-native';
+import { ActivityIndicator, ScrollView, Text, View } from 'react-native';
 
 import Button from '../components/Button';
 import { DatePicker, Field, Select } from '../components/Form';
@@ -17,6 +17,7 @@ import delay from '../utils/delay';
 export default function RegisterSupplie() {
   const { setSupplies } = useSuppliesContext();
   const [success, setSuccess] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const methods = useForm<FormData>({
@@ -37,6 +38,7 @@ export default function RegisterSupplie() {
   } = methods;
 
   const handleSubmit = hookFormHandleSubmit(async (data) => {
+    setIsLoading(true);
     const { liters, gasStation, fuel, date } = data;
 
     const newSupplie = {
@@ -53,12 +55,8 @@ export default function RegisterSupplie() {
     await delay();
 
     setSuccess(true);
+    setIsLoading(false);
     reset();
-
-    setTimeout(() => {
-      setSuccess(false);
-    }, 1000);
-
     router.push('/(tabs)/supplies');
   });
 
@@ -101,8 +99,9 @@ export default function RegisterSupplie() {
           placeholder='Data do abastecimento'
         />
 
-        <Button className='mt-12' onPress={handleSubmit}>
-          Registrar
+        <Button className='mt-12' disabled={isLoading} onPress={handleSubmit}>
+          {!isLoading && 'Registrar'}
+          {isLoading && <ActivityIndicator color='black' />}
         </Button>
 
         {success && (

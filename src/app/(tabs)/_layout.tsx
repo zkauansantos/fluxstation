@@ -7,11 +7,7 @@ import useSuppliesContext from '../../hooks/useSuppliesContext';
 
 export default function TabRoutes() {
   const router = useRouter();
-  const { supplies, setSupplies } = useSuppliesContext();
-
-  function handleDeleteAllSupplies() {
-    setSupplies([]);
-  }
+  const { supplies } = useSuppliesContext();
 
   return (
     <Tabs
@@ -23,6 +19,17 @@ export default function TabRoutes() {
           />
         ),
         headerBackground: () => <View className='flex-1 bg-blue-50' />,
+        headerRight: () => (
+          <View className='w-[150px] self-end mr-3 mt-6'>
+            <Button
+              color='blue'
+              className='py-0 px-0 h-[40px]'
+              onPress={() => router.push('/register-supplie')}
+            >
+              Abastecer
+            </Button>
+          </View>
+        ),
       }}
       tabBar={({ state, navigation, descriptors }) => {
         return (
@@ -83,17 +90,6 @@ export default function TabRoutes() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name='attach-money' size={size} color={color} />
           ),
-          headerRight: () => (
-            <View className='w-[150px] self-end mr-3 mt-6'>
-              <Button
-                color='blue'
-                className='py-0 px-0 h-[40px]'
-                onPress={() => router.push('/register-supplie')}
-              >
-                Abastecer
-              </Button>
-            </View>
-          ),
         }}
       />
 
@@ -104,18 +100,6 @@ export default function TabRoutes() {
           tabBarIcon: ({ color, size }) => (
             <MaterialIcons name='car-crash' size={size} color={color} />
           ),
-          headerRight: () =>
-            supplies.length > 0 && (
-              <View className='w-[150px] self-end mr-3 mt-6'>
-                <Button
-                  color='red'
-                  className='py-0 px-0 rounded-full h-[50px] '
-                  onPress={handleDeleteAllSupplies}
-                >
-                  Apagar os registros
-                </Button>
-              </View>
-            ),
         }}
       />
     </Tabs>

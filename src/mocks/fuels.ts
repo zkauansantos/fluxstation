@@ -1,6 +1,4 @@
-import { Fuel } from '../entities/Fuel';
-
-export const fuels: Fuel[] = [
+export const fuels = [
   {
     label: 'Selecione',
     value: '',
