@@ -38,7 +38,6 @@ export default function DatePicker({
               onPress={() => setShowDatePicker(true)}
             >
               <Text className='text-black capitalize font-normal'>
-                <>{console.log({ value })}</>
                 {value && formatDate(value)}
                 {!value && 'Selecione uma data'}
               </Text>
