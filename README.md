@@ -66,11 +66,15 @@ as informações de cada registro, incluindo a data do abastecimento.
 ## Rodando Localmente
 
 ```bash
-$ git clone https://github.com/zkauansantos/test-appMasters.git
+$ git clone https://github.com/zkauansantos/fluxstation.git
 
-$ cd test-appMasters
+$ cd fluxstation
 
-$ npm install ou yarn install
+$ yarn 
 
-$ npm run dev ou yarn dev
+$ npx expo install
+
+$ npx expo start 
 ```
+
+Depois selecione a plataforma ou scaneie o QRcode
